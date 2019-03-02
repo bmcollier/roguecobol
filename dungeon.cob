@@ -17,6 +17,9 @@ working-storage section.
   02 createX pic 9(2) usage is binary.
   02 createY pic 9(2) usage is binary.
 
+01 spaceExists pic 9(1) usage is binary.
+01 numberRooms pic 9(2) usage is binary.
+
 *> Map of level
 01 map-table.
   02 map-row occurs 25 times.
@@ -30,7 +33,7 @@ procedure division.
 *>
 *> Generate the dungeon, innit
 *> -------------------------------
-genDungeon section.
+genDungeon.
   perform wipeMap.
   move 40 to createX.
   move 12 to createY.
@@ -46,7 +49,7 @@ genDungeon section.
     then go to genFeature.
   perform addStaircases.
   perform seedMonsters.
-
+  exit program.
 
 *> -------------------------------------
 *> Section: wipeMap
@@ -54,8 +57,9 @@ genDungeon section.
 *> Wipe the existing map
 *> -------------------------------------
 wipeMap section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
 
 
 *> -------------------------------------
@@ -64,8 +68,10 @@ wipeMap section.
 *> Add a room to the map
 *> -------------------------------------
 addRoom section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: genNewFeature
@@ -73,8 +79,10 @@ addRoom section.
 *> Wipe the existing map
 *> -------------------------------------
 genNewFeature section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: pickWall
@@ -82,8 +90,10 @@ genNewFeature section.
 *> Wipe the existing map
 *> -------------------------------------
 pickWall section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: checkMapForSpace
@@ -91,8 +101,10 @@ pickWall section.
 *> Wipe the existing map
 *> -------------------------------------
 checkMapForSpace section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: addFeature
@@ -100,23 +112,31 @@ checkMapForSpace section.
 *> Wipe the existing map
 *> -------------------------------------
 addFeature section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: addStaircases
 *>
 *> Wipe the existing map
 *> -------------------------------------
-wipeMap section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+seedMonsters section.
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
 
 *> -------------------------------------
 *> Section: seedMonsters
 *>
 *> Wipe the existing map
 *> -------------------------------------
-wipeMap section.
-  move " " to map-table(1,1)
-  move " " to map-table(1,2)
+addStaircases section.
+  move " " to map-cell(1,1)
+  move " " to map-cell(1,2)
+  exit section.
+
+
+end program dungeon.
