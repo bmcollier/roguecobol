@@ -153,25 +153,29 @@ linkage section.
 procedure division using startX startY endX endY.
 doDrawRoom.
   perform varying brushX from startX by 1 until brushX > endX
-    display "#" at line startY col brushX
+    display "-" at line startY col brushX
       foreground-color is 7
       background-color is 4
   end-perform.
   perform varying brushX from startX by 1 until brushX > endX
-    display "#" at line endY col brushX
+    display "-" at line endY col brushX
       foreground-color is 7
       background-color is 4
   end-perform.
   perform varying brushY from startY by 1 until brushY > endY
-    display "#" at line brushY col startX
+    display "|" at line brushY col startX
       foreground-color is 7
       background-color is 4
   end-perform.
   perform varying brushY from startY by 1 until brushY > endY
-    display "#" at line brushY col endX
+    display "|" at line brushY col endX
       foreground-color is 7
       background-color is 4
   end-perform.
+  display "+" at line startY col startX foreground-color is 7 background-color is 4.
+  display "+" at line startY col endX foreground-color is 7 background-color is 4.
+  display "+" at line endY col startX foreground-color is 7 background-color is 4.
+  display "+" at line endY col endX foreground-color is 7 background-color is 4.
   exit program.
 end program drawRoom.
 
