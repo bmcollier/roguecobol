@@ -15,6 +15,11 @@ data division.
 
 working-storage section.
 
+*> Character location
+01 location.
+  02 locationX pic 9(2) value 40.
+  02 locationY pic 9(2) value 12..
+
 01 gp-1.
   02 a pic 9(2) value 50.
   02 inputVar pic X(1) value "O".
@@ -22,8 +27,8 @@ working-storage section.
 *> Current map of level
 01 map-table.
   02 map-row occurs 25 times.
-    3 map-column occurs 80 times.
-      4 map-cell pic x(1) value "x". 
+    03 map-column occurs 80 times.
+      04 map-cell pic x(1) value "x".
 
 *> Screen buffer
 01 screen-table.
@@ -49,13 +54,14 @@ newGame.
 *> ------------------------------------
 
 mainProcedure.
-  perform getInput.
-  perform moveNPCs.
-  perform wipeScreen.
-  perform redrawScreen.
-  perform showMessages.
+  perform until inputVar is equal to "q"
+    perform getInput
+    perform moveNPCs
+    perform wipeScreen
+    perform redrawScreen
+    perform showMessages
+  end-perform.
   goback.
-
 
 *> ------------------------------------
 *> Section: createMap
@@ -77,14 +83,17 @@ createMap.
 *> interpret it.
 *> -------------------------------------
 
+
 getInput.
-  accept inputVar with auto-skip. 
-  Display box-dos-bottom-left.
-  display inputVar at line 10 at column 20
-    with foreground-color 4, background-color 7.
-  if inputVar is not equal to "q"
-    then go to getInput.
-  goback.
+  accept inputVar with auto-skip.
+  if inputVar is equal to "w"
+    then subtract 1 from locationY.
+  if inputVar is equal to "s"
+    then add 1 to locationY.
+  if inputVar is equal to "a"
+    then subtract 1 from locationX.
+  if inputVar is equal to "d"
+    then add 1 to locationX.
 
 
 *> -------------------------------------
@@ -93,7 +102,6 @@ getInput.
 *> work out their movement and/or action
 
 moveNPCs section.
-  goback.
 
 
 *> -------------------------------------
@@ -113,7 +121,7 @@ wipeScreen section.
 *> character's icon.
 
 redrawScreen section.
-  goback.
+  display "@" at line locationY at column locationX.
 
 
 *> -------------------------------------
@@ -124,7 +132,7 @@ redrawScreen section.
 *> turn.
 
 showMessages section.
-  goback.
+
 
 *> -------------------------------------
 *> Section: drawRoom
@@ -132,12 +140,6 @@ showMessages section.
 *> Draw a room
 
 drawRoom section.
-  Display box-dos-line-horizontal. 
-  Display box-dos-line-vertical.   
-  Display box-dos-top-left.          
-  Display box-dos-top-right.       
-  Display box-dos-bottom-left.       
-  Display box-dos-bottom-right.     
 
 
 *> -------------------------------------
