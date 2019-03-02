@@ -6,7 +6,7 @@
 *> ---------------------------------
 
 identification division.
-program-id. hello.
+program-id. roguecobol.
 
 environment division.
 input-output section.
