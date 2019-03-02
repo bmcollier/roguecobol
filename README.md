@@ -1,4 +1,4 @@
-# roguecobol
+# COBOL Rogue
 Roguelike written in GnuCobol for 7DRL 2019.
 
 COBOL
