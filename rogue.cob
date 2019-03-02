@@ -15,14 +15,14 @@ data division.
 
 working-storage section.
 
+*> Input buffer
+01 inputVar pic X(1).
+
+
 *> Character location
 01 location.
   02 locationX pic 9(2) value 40.
-  02 locationY pic 9(2) value 12..
-
-01 gp-1.
-  02 a pic 9(2) value 50.
-  02 inputVar pic X(1) value "O".
+  02 locationY pic 9(2) value 12.
 
 *> Current map of level
 01 map-table.
@@ -73,7 +73,6 @@ createMap.
   move '          xxxxxxxxxx          xxxxxxxxx          xxxxxxxxxx     ' to map-row(1).
   display " " at line 1 at column 1 erase to end of screen.
   display "@" at line 10 at column 10.
-  display a at line 10 at column 20.
   display "Two-d table : " map-row(1).
 
 
@@ -121,8 +120,10 @@ wipeScreen section.
 *> character's icon.
 
 redrawScreen section.
-  display "@" at line locationY at column locationX.
-
+  display "@" at line locationY at column locationX
+    foreground-color 13
+    highlight.
+  call "drawRoom" using 10, 10, 20, 20.
 
 *> -------------------------------------
 *> Section: showMessages
@@ -135,14 +136,42 @@ showMessages section.
 
 
 *> -------------------------------------
-*> Section: drawRoom
+*> Subprogram: drawRoom
 *> 
 *> Draw a room
-
-drawRoom section.
-
-
-*> -------------------------------------
-*> End program - we shouldn't get here.
-goback.
+identification division.
+program-id. drawRoom.
+data division.
+working-storage section.
+01 brushX pic 9(2) usage is binary.
+01 brushY pic 9(2) usage is binary.
+linkage section.
+01 startX pic 9(2) usage is binary.
+01 startY pic 9(2) usage is binary.
+01 endX pic 9(2) usage is binary.
+01 endY pic 9(2) usage is binary.
+procedure division using startX startY endX endY.
+doDrawRoom.
+  perform varying brushX from startX by 1 until brushX > endX
+    display "#" at line startY col brushX
+      foreground-color is 7
+      background-color is 4
+  end-perform.
+  perform varying brushX from startX by 1 until brushX > endX
+    display "#" at line endY col brushX
+      foreground-color is 7
+      background-color is 4
+  end-perform.
+  perform varying brushY from startY by 1 until brushY > endY
+    display "#" at line brushY col startX
+      foreground-color is 7
+      background-color is 4
+  end-perform.
+  perform varying brushY from startY by 1 until brushY > endY
+    display "#" at line brushY col endX
+      foreground-color is 7
+      background-color is 4
+  end-perform.
+  exit program.
+end program drawRoom.
 
